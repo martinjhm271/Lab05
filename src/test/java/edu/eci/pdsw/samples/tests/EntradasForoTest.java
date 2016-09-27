@@ -18,11 +18,32 @@ package edu.eci.pdsw.samples.tests;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import edu.eci.pdsw.samples.entities.EntradaForo;
+import edu.eci.pdsw.samples.entities.Usuario;
+import edu.eci.pdsw.samples.services.ExcepcionServiciosForos;
+import edu.eci.pdsw.samples.services.ServiciosForoStub;
+
 import static org.junit.Assert.*;
+
+import java.util.List;
 
 /**
  *
  * @author hcadavid
+ */
+
+
+
+/**
+ * Pruebas de Equivalencia
+ * 
+ * Clase 1 = Enviarle un foro con un identificador no valido , deberia no asignarlo
+ * 
+ * Clase 2 = Enviarle un foro hecho por un usuario temporal que no este registrado en la  base de datos , se espera que falle
+ * 
+ * Clase 3 = Enviarle un foro con sin un usuario, se espera que falle
+ *
  */
 public class EntradasForoTest {
     
@@ -34,8 +55,18 @@ public class EntradasForoTest {
     }
     
     @Test
-    public void registroPacienteTest(){
-        
+    public void registroPacienteTest(){  
+    }
+    @Test
+    public void agregarforo1() throws ExcepcionServiciosForos{
+    	ServiciosForoStub svf=new ServiciosForoStub();
+    	EntradaForo ef=new EntradaForo(999999,new Usuario("martinjhm271@hotmail.es","Martin Hernandez") ,"Por que el agua moja?", "Super interrogante", java.sql.Date.valueOf("2000-01-01"));
+    	svf.registrarNuevaEntradaForo(ef);
+    	List<EntradaForo> temp =svf.consultarEntradasForo();
+    	int id=-1;
+    	boolean ban=true;
+    	for(int i=0;i<temp.size() && ban;i++){if(temp.get(i).equals(ef)){id=temp.get(i).getIdentificador();ban=false;}}
+    	assertNotEquals(999999,id);
     }
     
     
