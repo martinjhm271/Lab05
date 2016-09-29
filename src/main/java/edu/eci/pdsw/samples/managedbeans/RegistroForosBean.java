@@ -88,7 +88,7 @@ public class RegistroForosBean implements Serializable{
     }
     
     public void setEntradasForo(){
-        if(!email.equals("") && !nombre.equals("") && !comentario.equals("") && !titulo.equals("")){
+        if(!this.email.equals("") && !this.nombre.equals("") && !this.comentario.equals("") && !this.titulo.equals("")){
             Usuario u=new Usuario(email,nombre);
             EntradaForo ef=new EntradaForo(0,u, getComentario(),  getTitulo(),java.sql.Date.valueOf("2000-01-01"));
             try{
@@ -96,10 +96,9 @@ public class RegistroForosBean implements Serializable{
             } catch (ExcepcionServiciosForos ex) {
             Logger.getLogger(ServiciosForoStub.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
-            email="";nombre="";comentario="";titulo="";
         }
+	this.email="";this.nombre="";this.comentario="";this.titulo="";
         }
-
     }
 
 
