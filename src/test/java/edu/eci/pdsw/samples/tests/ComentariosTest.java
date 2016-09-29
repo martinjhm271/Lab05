@@ -18,14 +18,21 @@ package edu.eci.pdsw.samples.tests;
 
 import edu.eci.pdsw.samples.entities.EntradaForo;
 import edu.eci.pdsw.samples.entities.Usuario;
+import edu.eci.pdsw.samples.services.ExcepcionServiciosForos;
 import edu.eci.pdsw.samples.services.ServiciosForo;
 import edu.eci.pdsw.samples.services.ServiciosForoStub;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  *
@@ -47,11 +54,6 @@ public class ComentariosTest {
     }
     
     @Test
-    public void registroPacienteTest(){
-        
-    }
-    
-    @Test
     public void registroNuevaEntradaAlForoValidaUnaEntradaForoJuanPerez(){
         List<EntradaForo> actuales = null;
         ServiciosForo sf = ServiciosForo.getInstance();
@@ -65,8 +67,43 @@ public class ComentariosTest {
             Logger.getLogger(ServiciosForoStub.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
-        assertEquals(actuales.size(),3);
+        assertEquals("El tamaño actual de la lista de entradas foros es 3.",actuales.size(),3);
     }
     
+    @Test 
+    public void consultarEntradaForoYaCReadoAdemasdeDatosEstaticos(){
+        List<EntradaForo> actuales = null;
+        ServiciosForo sf = ServiciosForo.getInstance();
+        try{
+            EntradaForo ef = new EntradaForo(10,sf.consultarUsuario("luisa.perez@gmail.com"),"Que clase de mundo es este?", "Super INterrogante",java.sql.Date.valueOf("2016-09-03"));
+            EntradaForo evaluar = sf.consultarEntradaForo(3);
+            actuales = sf.consultarEntradasForo();
+            assertEquals("La entrada al foro se encuentra registrado una vez creado",evaluar.getIdentificador(),actuales.get(2).getIdentificador());
+        }catch(Exception e){
+            Logger.getLogger(ServiciosForoStub.class.getName()).log(Level.SEVERE, null, e);
+            e.printStackTrace();
+        }
+    }
+    
+    @Test
+    public void registrarEntradaForoAdemasdeDatosEstaticos(){
+        List<EntradaForo> actuales = null;
+        ServiciosForo sf = ServiciosForo.getInstance();
+        try {
+            EntradaForo ef1 = new EntradaForo(10,sf.consultarUsuario("luisa.perez@gmail.com"),"Que clase de mundo es este?", "Super Intterrogante",java.sql.Date.valueOf("2016-09-03"));
+            EntradaForo ef2 = new EntradaForo(11,sf.consultarUsuario("yenny@hotmail.com"),"Que clase de mundo es este?", "Super INterrogante",java.sql.Date.valueOf("2016-09-03"));
+            sf.registrarNuevaEntradaForo(ef1);
+            sf.registrarNuevaEntradaForo(ef2);
+            actuales = sf.consultarEntradasForo();
+            for (EntradaForo en : actuales) {
+                System.out.println(en.getTitulo());
+                
+            }
+            assertEquals("Se registraron 2 nuevas EntradasForo ademas de las del contructor y las de las pruebas anteriores",actuales.size(),5);
+        } catch (ExcepcionServiciosForos ex) {
+            Logger.getLogger(ComentariosTest.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
     
 }
