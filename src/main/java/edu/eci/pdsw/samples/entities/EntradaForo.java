@@ -16,6 +16,7 @@
  */
 package edu.eci.pdsw.samples.entities;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -24,24 +25,16 @@ import java.util.Set;
  *
  * @author hcadavid
  */
-public class EntradaForo {
-    
+public class EntradaForo implements Serializable{
     private int identificador;
-    
     private Usuario autor;
-    
     private String comentario;
-    
     private Set<Comentario> respuestas;
-    
     private String titulo;
-    
     private Date fechayHora;
-
+    
     public EntradaForo() {
     }
-    
-    
     public EntradaForo(int identificador, Usuario autor, String comentario, String titulo, Date fechayHora) {
         this.identificador = identificador;
         this.autor = autor;
@@ -50,6 +43,8 @@ public class EntradaForo {
         this.fechayHora = fechayHora;
         this.respuestas=new LinkedHashSet<>();        
     }
+
+ 
 
     public void setIdentificador(int identificador) {
         this.identificador = identificador;

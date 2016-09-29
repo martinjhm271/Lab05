@@ -25,6 +25,12 @@ import edu.eci.pdsw.samples.services.ServiciosForo;
 import edu.eci.pdsw.samples.services.ServiciosForoStub;
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -44,16 +50,12 @@ public class RegistroForosBean implements Serializable{
     ServiciosForo sp=ServiciosForo.getInstance();
     EntradaForo selectForo;
     
-    private int identificador;
-    
+    private String email="";
+    private String nombre="";
     private Usuario autor;
-    
-    private String comentario;
-    
+    private String comentario="";
     private Set<Comentario> respuestas;
-    
-    private String titulo;
-    
+    private String titulo="";
     private Date fechayHora;
     
     public List<EntradaForo> getEntradasForo() throws ExcepcionServiciosForos{
@@ -68,23 +70,40 @@ public class RegistroForosBean implements Serializable{
         this.selectForo = selectForo;
     }
     
+    
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
     public void setEntradasForo(){
-        EntradaForo ef=new EntradaForo(getIdentificador(),getAutor(),  getComentario(),  getTitulo(),  getFechayHora());
-        try{
+        if(!email.equals("") && !nombre.equals("") && !comentario.equals("") && !titulo.equals("")){
+            Usuario u=new Usuario(email,nombre);
+            EntradaForo ef=new EntradaForo(0,u, getComentario(),  getTitulo(),java.sql.Date.valueOf("2000-01-01"));
+            try{
             sp.registrarNuevaEntradaForo(ef);
-        } catch (ExcepcionServiciosForos ex) {
+            } catch (ExcepcionServiciosForos ex) {
             Logger.getLogger(ServiciosForoStub.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
+            email="";nombre="";comentario="";titulo="";
         }
+        }
+
     }
 
-    public int getIdentificador() {
-        return identificador;
-    }
 
-    public void setIdentificador(int identificador) {
-        this.identificador = identificador;
-    }
+
 
     public Usuario getAutor() {
         return autor;

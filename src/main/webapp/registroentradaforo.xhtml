@@ -6,37 +6,43 @@
     <h:head></h:head>
     <h:body>
         <h:form id="formulario_foro">
-            <p:layout id="program" style="min-width:400px;min-height:600px;">
-                <p:layoutUnit position="west" resizable="true" size="1000" minSize="700" maxSize="1500">
-                    <p:dataTable rowIndexVar="row" id="Tablaforos" var="Foro"  value="#{RegistroForo.getEntradasForo()}" selection="#{RegistroForo.selectForo}"  selectionMode="single" rowKey="#{Foro.identificador}" style="margin-bottom:0">
-                        <p:column headerText="Id" >
-                            <h:outputText value="#{Foro.identificador}" />
-                        </p:column>
+            <p:dataTable rowIndexVar="row" id="Tablaforos" var="Foro"  value="#{RegistroForo.getEntradasForo()}" selection="#{RegistroForo.selectForo}"  selectionMode="single" rowKey="#{Foro.identificador}" style="margin-bottom:0">
+                <p:column headerText="Id" >
+                    <h:outputText value="#{Foro.identificador}" />
+                </p:column>
 
-                        <p:column headerText="Autor">
-                            <h:outputText value="#{Foro.autor}" />
-                        </p:column>
+                <p:column headerText="Autor">
+                    <h:outputText value="#{Foro.autor.nombre}" />
+                </p:column>
 
-                        <p:column headerText="Comentario">
-                            <h:outputText value="#{Foro.comentario}" />
-                        </p:column>
+                <p:column headerText="Comentario">
+                     <h:outputText value="#{Foro.comentario}" />
+                </p:column>
                         
-                        <p:column headerText="Titulo">
-                            <h:outputText value="#{Foro.titulo}" />
-                        </p:column>
+                <p:column headerText="Titulo">
+                    <h:outputText value="#{Foro.titulo}" />
+                </p:column>
                         
-                        <p:column headerText="Fecha y Hora">
-                            <h:outputText value="#{Foro.fechayHora}" />
-                        </p:column>
-
-                    </p:dataTable>
-                </p:layoutUnit>         
-
-            </p:layout>  
-            <h:panelGrid columns="2" cellpadding="5">
-                <p:commandButton value="Add" id="newforo" update="formulario_foro" actionListener="#{Shopping.setSelectedItems(Shopping.selectProducto,cant)}"   />
-                <p:spinner id="basic" value="#{Shopping.cantidadComprada}" min="0" max="100" />
+                <p:column headerText="Fecha y Hora">
+                    <h:outputText value="#{Foro.fechayHora}" />
+                </p:column>
+            </p:dataTable>
+            <h:panelGrid columns="1" cellpadding="5">
+                <p:commandButton value="Info Foro" id="infoforo"  action="registrorespuestaforo"/>
             </h:panelGrid>     
+            <h:panelGrid columns="8"  cellpadding="5">
+                <h:outputLabel value="Nombre del autor" />
+                <h:inputText value="#{RegistroForo.nombre}" required="true"/>
+                <h:outputLabel value="Email del autor" />
+                <h:inputText value="#{RegistroForo.email}" required="true"/>
+                <h:outputLabel value="Comentario del foro" />
+                <h:inputText value="#{RegistroForo.comentario}" required="true"/>
+                <h:outputLabel value="Titulo del foro" />
+                <h:inputText value="#{RegistroForo.titulo}" required="true"/>
+            </h:panelGrid>   
+            <h:panelGrid columns="1"  cellpadding="5">
+                <p:commandButton value="Add New Foro" id="newforo" update="formulario_foro" actionListener="#{RegistroForo.setEntradasForo()}" />
+            </h:panelGrid>   
         </h:form>
   
     </h:body>
