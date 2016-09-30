@@ -95,10 +95,6 @@ public class ComentariosTest {
             sf.registrarNuevaEntradaForo(ef1);
             sf.registrarNuevaEntradaForo(ef2);
             actuales = sf.consultarEntradasForo();
-            for (EntradaForo en : actuales) {
-                System.out.println(en.getTitulo());
-                
-            }
             assertEquals("Se registraron 2 nuevas EntradasForo ademas de las del contructor y las de las pruebas anteriores",actuales.size(),5);
         } catch (ExcepcionServiciosForos ex) {
             Logger.getLogger(ComentariosTest.class.getName()).log(Level.SEVERE, null, ex);
