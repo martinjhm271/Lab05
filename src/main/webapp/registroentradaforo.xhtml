@@ -32,13 +32,13 @@
             </h:panelGrid>     
             <h:panelGrid columns="8"  cellpadding="5">
                 <h:outputLabel value="Nombre del autor" />
-                <h:inputText value="#{RegistroForo.nombre}" required="true"/>
+                <h:inputText value="#{RegistroForo.nombre}"/>
                 <h:outputLabel value="Email del autor" />
-                <h:inputText value="#{RegistroForo.email}" required="true"/>
+                <h:inputText value="#{RegistroForo.email}" />
                 <h:outputLabel value="Comentario del foro" />
-                <h:inputText value="#{RegistroForo.comentario}" required="true"/>
+                <h:inputText value="#{RegistroForo.comentario}" />
                 <h:outputLabel value="Titulo del foro" />
-                <h:inputText value="#{RegistroForo.titulo}" required="true"/>
+                <h:inputText value="#{RegistroForo.titulo}" />
             </h:panelGrid>   
             <h:panelGrid columns="1"  cellpadding="5">
                 <p:commandButton value="Add New Foro" id="newforo" update="formulario_foro" actionListener="#{RegistroForo.setEntradasForo()}" />
