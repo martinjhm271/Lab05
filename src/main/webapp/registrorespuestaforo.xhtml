@@ -1,11 +1,51 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3c.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head></h:head>
 
     <h:body>
-        
+        <h:form id="formulario_respuestaforo">
+            <p:layout style="min-width:800px;min-height:300px;max-height:300px;">
+            <p:layoutUnit position="west" resizable="true" size="400" minSize="400" maxSize="600" style="min-width: 550px">
+                <p:panelGrid columns="1" style="margin-top:40px;font-size: 32px;float:right">
+                    <p:column>"Identificador: #{RegistroForo.selectForo.identificador}"</p:column>
+                    <p:column>"Fecha de Registro: #{RegistroForo.selectForo.fechayHora}"</p:column>
+                    <p:column>"#{RegistroForo.selectForo.autor.nombre}"</p:column>
+                    <p:column>"#{RegistroForo.selectForo.autor.email}"</p:column>
+                    <p:column>"Comentario: #{RegistroForo.selectForo.comentario}"</p:column>
+                </p:panelGrid>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center" style="margin-top:1200px;font-size:100px">
+                <p:column>"#{RegistroForo.selectForo.titulo}"</p:column>
+            </p:layoutUnit>
+            </p:layout>
+            
+            <p:dataTable var="Comentario" value="#{RegistroForo.selectForo.respuestas}">
+                <p:column headerText="Nombre Autor">
+                    <h:outputText value="#{Comentario.autor.nombre}" />
+                </p:column>
+                <p:column headerText="Correo Autor">
+                    <h:outputText value="#{Comentario.autor.email}" />
+                </p:column>
+                <p:column headerText="Comentario">
+                    <h:outputText value="#{Comentario.contenido}" />
+                </p:column>
+            </p:dataTable>
+            
+            <h:panelGrid columns="5"  cellpadding="5">
+                <h:outputLabel value="Email del autor" />
+                <h:inputText value="#{RegistroForo.email}"/>
+                <h:outputLabel value="Contenido" />
+                <h:inputText value="#{RegistroForo.comentario}"/>
+                <p:commandButton value="Add" id="comentario" update="formulario_respuestaforo" actionListener="#{RegistroForo.setRespuestaForo()}"/>
+            </h:panelGrid>
+            
+            <h:panelGrid columns="1"  cellpadding="5">
+                <p:commandButton value="Principal Page" id="newforo" action="registroentradaforo" />
+            </h:panelGrid> 
+        </h:form>  
     </h:body>
 
 </html>

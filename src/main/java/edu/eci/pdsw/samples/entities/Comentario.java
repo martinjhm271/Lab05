@@ -16,13 +16,14 @@
  */
 package edu.eci.pdsw.samples.entities;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  *
  * @author hcadavid
  */
-public class Comentario {
+public class Comentario implements Serializable{
 
     private Usuario autor;
     

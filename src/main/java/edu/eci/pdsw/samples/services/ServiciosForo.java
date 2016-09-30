@@ -42,6 +42,8 @@ public abstract class ServiciosForo {
     }
 
 
+    public abstract void agregarUsuario(String correo,Usuario us);
+    
     /**
      * Consulta todas las entradas al foro registradas
      * @return el conjunto de las entradas al foro disponibles

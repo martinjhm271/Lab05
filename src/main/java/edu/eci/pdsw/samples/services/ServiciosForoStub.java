@@ -19,6 +19,7 @@ package edu.eci.pdsw.samples.services;
 import edu.eci.pdsw.samples.entities.Comentario;
 import edu.eci.pdsw.samples.entities.EntradaForo;
 import edu.eci.pdsw.samples.entities.Usuario;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.logging.Logger;
  *
  * @author hcadavid
  */
-public class ServiciosForoStub extends ServiciosForo{
+public class ServiciosForoStub extends ServiciosForo implements Serializable{
 
     private final Map<String,Usuario> usuarios;
     private final Map<Integer,EntradaForo> foros;
@@ -43,6 +44,13 @@ public class ServiciosForoStub extends ServiciosForo{
         cargarDatosEstaticos(usuarios, foros);
     }
 
+    @Override
+    public void agregarUsuario(String correo,Usuario us){
+        if(!usuarios.containsKey(correo)){
+            usuarios.put(correo, us);
+        }
+    }
+    
     @Override
     public List<EntradaForo> consultarEntradasForo() throws ExcepcionServiciosForos {
         return new LinkedList<>(foros.values());

@@ -90,19 +90,30 @@ public class RegistroForosBean implements Serializable{
     public void setEntradasForo(){
         if(!this.email.equals("") && !this.nombre.equals("") && !this.comentario.equals("") && !this.titulo.equals("")){
             Usuario u=new Usuario(email,nombre);
+            sp.agregarUsuario(this.email,u);
             EntradaForo ef=new EntradaForo(0,u, getComentario(),  getTitulo(),java.sql.Date.valueOf("2000-01-01"));
             try{
-            sp.registrarNuevaEntradaForo(ef);
+                sp.registrarNuevaEntradaForo(ef);
             } catch (ExcepcionServiciosForos ex) {
-            Logger.getLogger(ServiciosForoStub.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ServiciosForoStub.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
 	this.email="";this.nombre="";this.comentario="";this.titulo="";
         }
     }
 
-
-
+    public void setRespuestaForo(){
+        try{
+            Usuario temp = sp.consultarUsuario(email);
+            if(!temp.equals(null)){
+                sp.agregarRespuestaForo(selectForo.getIdentificador(), new Comentario(temp,comentario,java.sql.Date.valueOf("2000-01-01")));
+            }
+        }catch(ExcepcionServiciosForos ex){
+            ex.printStackTrace();
+        }catch(NullPointerException exe){
+        }
+        this.email="";this.comentario="";
+    }
 
     public Usuario getAutor() {
         return autor;
