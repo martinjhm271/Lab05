@@ -54,9 +54,7 @@ public class EntradasForoTest {
     public void setUp() {
     }
     
-    @Test
-    public void registroPacienteTest(){  
-    }
+  
     @Test
     public void agregarforo1() throws ExcepcionServiciosForos{
     	ServiciosForoStub svf=new ServiciosForoStub();

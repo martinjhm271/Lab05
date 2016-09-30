@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.chart.PieChart.Data;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -91,7 +92,7 @@ public class RegistroForosBean implements Serializable{
         if(!this.email.equals("") && !this.nombre.equals("") && !this.comentario.equals("") && !this.titulo.equals("")){
             Usuario u=new Usuario(email,nombre);
             sp.agregarUsuario(this.email,u);
-            EntradaForo ef=new EntradaForo(0,u, getComentario(),  getTitulo(),java.sql.Date.valueOf("2000-01-01"));
+            EntradaForo ef=new EntradaForo(0,u, getComentario(),  getTitulo(),new Date(java.util.Calendar.getInstance().getTime().getTime()));
             try{
                 sp.registrarNuevaEntradaForo(ef);
             } catch (ExcepcionServiciosForos ex) {
@@ -106,7 +107,7 @@ public class RegistroForosBean implements Serializable{
         try{
             Usuario temp = sp.consultarUsuario(email);
             if(!temp.equals(null)){
-                sp.agregarRespuestaForo(selectForo.getIdentificador(), new Comentario(temp,comentario,java.sql.Date.valueOf("2000-01-01")));
+                sp.agregarRespuestaForo(selectForo.getIdentificador(), new Comentario(temp,comentario,new Date(java.util.Calendar.getInstance().getTime().getTime())));
             }
         }catch(ExcepcionServiciosForos ex){
             ex.printStackTrace();

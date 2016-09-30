@@ -64,24 +64,42 @@ public class ServiciosForoStub extends ServiciosForo implements Serializable{
         return foros.get(id);
     }
 
+    
     @Override
     public void registrarNuevaEntradaForo(EntradaForo f) throws ExcepcionServiciosForos {
         synchronized(this){
             f.setIdentificador(foroidcount);            
             foroidcount++;
         }
-        foros.put(f.getIdentificador(), f);        
+        if(f.getAutor()==null){
+            throw new ExcepcionServiciosForos("Foro no tiene asociado un usuario");
+        }else{
+            foros.put(f.getIdentificador(), f);        
+        }
     }
 
     @Override
     public void agregarRespuestaForo(int idforo, Comentario c) throws ExcepcionServiciosForos {
-        EntradaForo f=foros.get(idforo);
-        f.getRespuestas().add(c);
+        if(foros.containsKey(idforo)){
+            EntradaForo f=foros.get(idforo);
+            if(c.getAutor()==null){
+                throw new ExcepcionServiciosForos("Comentario no tiene asociado un usuario");
+            }
+            else{
+                f.getRespuestas().add(c);
+            }
+        }
+        else{throw new ExcepcionServiciosForos("El foro con dicho id no existe o no esta creado");}
+
     }
 
     @Override
     public Usuario consultarUsuario(String email) throws ExcepcionServiciosForos {
-        return usuarios.get(email);
+        if(!usuarios.containsKey(email)){
+            throw new ExcepcionServiciosForos("No hay un usuario asociado a ese correo");
+        }else{
+            return usuarios.get(email);
+        } 
     }
     
     
