@@ -68,12 +68,12 @@ public class ServiciosForoStub extends ServiciosForo implements Serializable{
     @Override
     public void registrarNuevaEntradaForo(EntradaForo f) throws ExcepcionServiciosForos {
         synchronized(this){
-            f.setIdentificador(foroidcount);            
-            foroidcount++;
         }
         if(f.getAutor()==null){
             throw new ExcepcionServiciosForos("Foro no tiene asociado un usuario");
         }else{
+			f.setIdentificador(foroidcount);            
+            foroidcount++;
             foros.put(f.getIdentificador(), f);        
         }
     }
