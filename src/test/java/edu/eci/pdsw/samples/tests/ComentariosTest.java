@@ -54,7 +54,7 @@ public class ComentariosTest {
     
     @Test
     public void registrarcomentario() throws ExcepcionServiciosForos{
-		ServiciosForo svf=new ServiciosForoStub();
+        ServiciosForo svf=new ServiciosForoStub();
         Usuario u = svf.consultarUsuario("juan.perez@gmail.com");
         Comentario c=new Comentario(u,"Buen post", new Date(java.util.Calendar.getInstance().getTime().getTime()));
         svf.agregarRespuestaForo(0,c);
@@ -63,9 +63,11 @@ public class ComentariosTest {
     }
     @Test
     public void registrarcomentario2() throws ExcepcionServiciosForos{
-		ServiciosForo svf=new ServiciosForoStub();
+        ServiciosForo svf=new ServiciosForoStub();
         Usuario u = svf.consultarUsuario("juan.perez@gmail.com");int ans=-1;
-		for(EntradaForo e:svf.consultarEntradasForo()){ans=e.getIdentificador();}
+        for(EntradaForo e:svf.consultarEntradasForo()){
+            ans=e.getIdentificador();
+        }
         Comentario c=new Comentario(u,"Buen post", new Date(java.util.Calendar.getInstance().getTime().getTime()));
         Comentario c2=new Comentario(u,"Me gusto mucho tu foro espero que subas mas", new Date(java.util.Calendar.getInstance().getTime().getTime()));
         Comentario c3=new Comentario(u,"Creo que puedes mejorarlo", new Date(java.util.Calendar.getInstance().getTime().getTime()));
@@ -74,5 +76,22 @@ public class ComentariosTest {
         assertEquals("el numero de respuestas del foro con id=0 es igual e debido al agregar 3 comentarios",e1.getRespuestas().size(),3);
     }
  
+    @Test
+    public void confirmarregistrodeComentariosConUusuariosIgualesyElcreadordelforo(){
+        try {
+            ServiciosForo svf=new ServiciosForoStub();
+            Usuario u = svf.consultarUsuario("juan.perez@gmail.com");
+            Usuario u2 = svf.consultarUsuario("juan.rodriguez@gmail.com");
+            Usuario u3 = svf.consultarUsuario("juan.perez@gmail.com");
+            EntradaForo f = new EntradaForo(10, u, "El mejor post del mundo", "Ingenieria de sistemas lo mejor", new Date(java.util.Calendar.getInstance().getTime().getTime()));
+            svf.registrarNuevaEntradaForo(f);
+            svf.agregarRespuestaForo(1, new Comentario(u2, "La mejor carrera del mundo", new Date(java.util.Calendar.getInstance().getTime().getTime())));
+            svf.agregarRespuestaForo(1, new Comentario(u3, "Lo maximo PDSW", new Date(java.util.Calendar.getInstance().getTime().getTime())));
+            svf.agregarRespuestaForo(1, new Comentario(u2, "¿Que linea de sistemas prefieren?", new Date(java.util.Calendar.getInstance().getTime().getTime())));
+            svf.agregarRespuestaForo(1, new Comentario(u, "ESCUELAING la mejor universidad", new Date(java.util.Calendar.getInstance().getTime().getTime())));
+            assertEquals("el numero de respuestas del foro son 4 comentarios incluyendo el usuario de la entradaforo",svf.consultarEntradaForo(1).getRespuestas().size(),4);
+        } catch (ExcepcionServiciosForos ex) {
+        }
+    }
     
 }

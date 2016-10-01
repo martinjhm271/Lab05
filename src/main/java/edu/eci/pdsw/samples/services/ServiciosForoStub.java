@@ -72,7 +72,7 @@ public class ServiciosForoStub extends ServiciosForo implements Serializable{
         if(f.getAutor()==null){
             throw new ExcepcionServiciosForos("Foro no tiene asociado un usuario");
         }else{
-			f.setIdentificador(foroidcount);            
+            f.setIdentificador(foroidcount);            
             foroidcount++;
             foros.put(f.getIdentificador(), f);        
         }

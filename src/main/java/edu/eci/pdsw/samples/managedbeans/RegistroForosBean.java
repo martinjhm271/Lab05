@@ -96,11 +96,10 @@ public class RegistroForosBean implements Serializable{
             try{
                 sp.registrarNuevaEntradaForo(ef);
             } catch (ExcepcionServiciosForos ex) {
-                Logger.getLogger(ServiciosForoStub.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
+                ex.getMessage();
+            }
         }
-	this.email="";this.nombre="";this.comentario="";this.titulo="";
-        }
+        this.email="";this.nombre="";this.comentario="";this.titulo="";
     }
 
     public void setRespuestaForo(){
@@ -110,7 +109,7 @@ public class RegistroForosBean implements Serializable{
                 sp.agregarRespuestaForo(selectForo.getIdentificador(), new Comentario(temp,comentario,new Date(java.util.Calendar.getInstance().getTime().getTime())));
             }
         }catch(ExcepcionServiciosForos ex){
-            ex.printStackTrace();
+            ex.getMessage();
         }catch(NullPointerException exe){
         }
         this.email="";this.comentario="";
