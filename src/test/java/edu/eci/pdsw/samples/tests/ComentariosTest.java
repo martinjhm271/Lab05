@@ -16,6 +16,7 @@
  */
 package edu.eci.pdsw.samples.tests;
 
+import edu.eci.pdsw.samples.entities.Comentario;
 import edu.eci.pdsw.samples.entities.EntradaForo;
 import edu.eci.pdsw.samples.entities.Usuario;
 import edu.eci.pdsw.samples.services.ExcepcionServiciosForos;
@@ -35,14 +36,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- *
-* CLASES DE EQUIVALENCIA
+ * Pruebas de Equivalencia
  * 
- * CONDICION DE ENTRADA  |      TIPO     |           CLASE DE EQUIVALENCIA VALIDA         |             CLASE DE EQUIVALENCIA INVALIDA
- *  ID (Identificadior)  |     Entero    |           0<=ID<=Cantidad de foros             |       ID<0 o ID>Cantidad de foros o un ID no numerico
- *    Entrada al foro    |  EntradaForo  |  Un usuario asociado a la entrada del for o    |        Usario no existente a la entrada del foro
- *      Comentario       |     String    |  El comentario debe estar asociado a un        |      -Usuario no existente para el comentario asociado
- *                       |               |              usuario existente                 |                     -Cadena en blanco
+ * Clase 1 = Enviarle un identificador no valido al metodo setrespuestaforo id<0 o id >999999.
+ * 
+ * Clase 2 = Enviarle un comentario que tenga como autor nulo o vacio (autor="" || autor=null)
+ *
  */
 public class ComentariosTest {
     
@@ -53,8 +52,27 @@ public class ComentariosTest {
     public void setUp() {
     }
     
-    
-    
+    @Test
+    public void registrarcomentario() throws ExcepcionServiciosForos{
+		ServiciosForo svf=new ServiciosForoStub();
+        Usuario u = svf.consultarUsuario("juan.perez@gmail.com");
+        Comentario c=new Comentario(u,"Buen post", new Date(java.util.Calendar.getInstance().getTime().getTime()));
+        svf.agregarRespuestaForo(0,c);
+        EntradaForo e=svf.consultarEntradaForo(0);
+        assertEquals("el numero de respuestas del foro con id=0 es igual 1",e.getRespuestas().size(),1);
+    }
+    @Test
+    public void registrarcomentario2() throws ExcepcionServiciosForos{
+		ServiciosForo svf=new ServiciosForoStub();
+        Usuario u = svf.consultarUsuario("juan.perez@gmail.com");int ans=-1;
+		for(EntradaForo e:svf.consultarEntradasForo()){ans=e.getIdentificador();}
+        Comentario c=new Comentario(u,"Buen post", new Date(java.util.Calendar.getInstance().getTime().getTime()));
+        Comentario c2=new Comentario(u,"Me gusto mucho tu foro espero que subas mas", new Date(java.util.Calendar.getInstance().getTime().getTime()));
+        Comentario c3=new Comentario(u,"Creo que puedes mejorarlo", new Date(java.util.Calendar.getInstance().getTime().getTime()));
+        svf.agregarRespuestaForo(ans,c); svf.agregarRespuestaForo(ans,c2); svf.agregarRespuestaForo(ans,c3);EntradaForo e1=new EntradaForo();
+        for(EntradaForo e:svf.consultarEntradasForo()){e1=e;}
+        assertEquals("el numero de respuestas del foro con id=0 es igual e debido al agregar 3 comentarios",e1.getRespuestas().size(),3);
+    }
  
     
 }
